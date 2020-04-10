@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR💕</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="stylish.css">
+</head>
+<body>
+    <div id="mask" autofocus>
+        click
+    </div>
+
+    <video autoplay muted loop id="myVideo">
+        <source src="Nature HD Video Loop.mp4" type="video/mp4">
+    </video>
+
+    <!--  -->
+
+    <!-- Top Row -->
+    <div class="row" id="top">
+        
+        <div class="vert" style="left: 1vw; top: 2vh;">
+            <img class="i" src="pics/01.jpg" >
+        </div>
+        <div class="vert" style="left: 18vw;">
+            <img class="i" src="pics/09.jpg">
+        </div>
+        <div class="wide" style="left: 33vw; top: 1vh;">
+            <img class="i" src="picWide/01.jpg">
+        </div>
+        <div class="vert" style="right: 2vw;">
+            <img class="i" src="pics/17.jpg">
+        </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="row" id="bottom">
+        <div class="vert" style="left: -1vw; bottom: 1vh; height: 55vh; width: 20vw">
+            <img class="i" src="pics/25.jpg">
+        </div>
+        <div class="vert" style="left: 19vw;"">
+            <video class="v">
+                <source src="vid/1.mp4">
+            </video>
+        </div>
+        <div class="wide" style="left:40vw; width: 40vw; height: 40vh;" >
+            <img class="i" src="picWide/07.jpg">
+        </div>
+        <div class="vert" style="right: 1vw; bottom: 2vh; width: 20vw; height: 60vh;">
+            <img class="i" src="pics/33.jpg">
+        </div>
+    </div>
+
+    <!-- Mid Row -->
+    <div class="row" id="mid">
+        <div class="wide" style="left: 10vw;">
+            <video class="v">
+                <source src="vidWide/1.mp4">
+            </video>
+        </div>
+        <div>
+            <img id="hbd" src="hbd.png">
+        <div class="vert" style="right: 17vw; top:-26vh;">
+            <video class="v">
+                <source src="vid/3.mp4">
+            </video>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script>
+    //Initiate
+    var mask = document.querySelector("#mask");
+    mask.addEventListener("click", function(){
+        mask.style.opacity="0";
+        setTimeout(()=>{
+            mask.style.display="none";
+            document.querySelector("#myVideo").style.opacity=1;
+        }, 3000);
+        document.body.style.filter="none";
+        // document.querySelectorAll("video").forEach(function(vid){
+        //     vid.setAttribute("autoplay","true");
+        // })
+    });
+
+    // var myVid = document.querySelector("#myVideo")
+    // myVid.addEventListener("canplay",(evt)=>{myVid.style.opacity=1});
+
+
+    //Video section
+    document.querySelectorAll(".v").forEach(function(vid){
+    //Video sound on-hover
+        vid.addEventListener("canplay",(evt)=>{vid.style.opacity=1});
+        vid.addEventListener("mouseenter",(event)=>{
+            vid.play();
+            vid.setAttribute("controls","true");
+        });
+        vid.addEventListener("mouseleave",(event)=>{
+            vid.pause();
+            vid.setAttribute("controls","false");
+        });
+    //Video rotation
+        vid.addEventListener("ended",(event=>{
+            var source = vid.querySelector("source").getAttribute("src");
+            if (vid.parentNode.getAttribute("class") == "vert") {
+                source = parseInt(source.slice(4,5));
+                if (source==5) {
+                    source = 1;
+                } else {
+                    source += 1;
+                }
+                console.log(source);
+                vid.querySelector("source").setAttribute("src","vid/"+source+".mp4");
+            } else if (vid.parentNode.getAttribute("class") == "wide") {
+                source = parseInt(source.slice(8,9));
+                if (source==5) {
+                    source = 1;
+                } else {
+                    source += 1;
+                }
+                vid.querySelector("source").setAttribute("src","vidWide/"+source+".mp4");
+            } else {
+                console.log("vert/wide video error");
+            }
+            vid.load();
+        }))
+    });
+
+    //Image rotation
+    var imgNum = 0
+    document.querySelectorAll(".i").forEach(function(img){
+        setTimeout(() => {
+            setTime(img);
+        }, imgNum*5000);
+        imgNum++;
+        img.addEventListener("load",(evt)=>{img.style.opacity=1});
+    });
+
+    function setTime(img) {
+        setInterval(function(){
+            var source = img.getAttribute("src");
+            if (img.parentNode.getAttribute("class") == "vert") {
+                source = parseInt(source.slice(5,7));
+                if (source==38) {
+                    source = 1;
+                } else {
+                    source += 1;
+                }
+                img.setAttribute("src", "pics/"+source+".jpg");
+            } else if (img.parentNode.getAttribute("class") == "wide") {
+                source = parseInt(source.slice(8,10));
+                if (source==13) {
+                    source = 1;
+                } else {
+                    source += 1;
+                }
+                img.setAttribute("src", "picWide/"+source+".jpg");
+            } else {
+                console.log("vert/wide pic error");
+            }
+        }, 15000);
+    }
+
+    //Image change on move off
+    // document.querySelectorAll("img").forEach((img)=>{
+    //     img.addEventListener("mouseout", (event)=>{
+    //         do {
+    //             var pic = RInt(38);//CHANGE TO TTL NUMBER OF PICS
+    //             pic = "pics/"+pic+".jpg";
+    //         } while (imgs.includes(pic));
+            
+    //         var index = imgs.indexOf(img.getAttribute("src"))
+    //         imgs.splice(index,1);
+    //         imgs.push(pic);
+    //         img.setAttribute("src",pic);
+    //     });
+    // });
+
+</script>
+
+</html>
